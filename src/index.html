@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kawal Covid</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <app-bar></app-bar>
+    </header>
+    <div class="sub-header">
+        <div class="jumbotron" style="background-color: cornflowerblue;">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>Kawal informasi seputar COVID-19 secara tepat dan akurat.</h1>
+                    <p>Situs ini merupakan sumber informasi inisiatif sukarela warganet
+                        Indonesia pro-data, terdiri dari
+                        praktisi kesehatan, akademisi & profesional.</p>
+                    <search-bar></search-bar>
+                </div>
+                <div class="col-md-6">
+                    <img src="<%= require('./img/undraw_data_processing_yrrv.svg') %>" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="container">
+            <covid-list></covid-list>
+        </div>
+        <section class="mt-5 data-indonesia" id="data-indonesia">
+            <div class="container">
+                <h1 class="text-black">Data Indonesia</h1>
+                <hr>
+                <div class="card-deck ">
+                    <div class="card deck1">
+                        <div class="card-body">
+                            <h5 class="card-title">Positif</h5>
+                            <p class="card-text">3,041,777</p>
+                        </div>
+                    </div>
+                    <div class="card deck2">
+                        <div class="card-body">
+                            <h5 class="card-title">Sembuh</h5>
+                            <p class="card-text">894,337</p>
+                        </div>
+                    </div>
+                    <div class="card deck3">
+                        <div class="card-body">
+                            <h5 class="card-title">Meninggal</h5>
+                            <p class="card-text">211,170</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="indonesia-data-table mt-5">
+            <div class="container">
+                <h1>Indonesia Data Tabel</h1>
+                <hr>
+                <table class="table table-hover" id="table-id">
+                    <thead>
+                        <tr>
+                            <th scope="col">Positif</th>
+                            <th scope="col">Sembuh</th>
+                            <th scope="col">Meninggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <script>
+            $.getJSON("http://localhost:8080/src/script/data/data-indonesia.json", function (
+                data) {
+                var items = [];
+                $.each(data, function (key, value) {
+                    items.push("<tr>");
+                    items.push("<td id =''" + key + "''>" + value.positif +
+                        "</td>");
+                    items.push("<td id =''" + key + "''>" + value.sembuh +
+                        "</td>");
+                    items.push("<td id =''" + key + "''>" + value.meninggal +
+                        "</td>");
+                });
+                $("<tbody/>", {
+                    html: items.join("")
+                }).appendTo("#table-id")
+            });
+        </script>
+        <section class="table-data mt-5">
+            <div class="container">
+                <h1>Global Data</h1>
+                <hr>
+                <table class="table table-hover" id="table-covids">
+                    <thead>
+                        <tr>
+                            <th scope="col">Negara</th>
+                            <th scope="col">Positif</th>
+                            <th scope="col">Sembuh</th>
+                            <th scope="col">Meninggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <script>
+            $.getJSON("http://localhost:8080/src/script/data/global-data.json", function (
+                data) {
+                var covids_data = [];
+                $.each(data, function (key, value) {
+                    covids_data.push("<tr>");
+                    covids_data.push("<td id =''" + key + "''>" + value.Country_Region +
+                        "</td>");
+                    covids_data.push("<td id =''" + key + "''>" + value.Confirmed +
+                        "</td>");
+                    covids_data.push("<td id =''" + key + "''>" + value.Recovered +
+                        "</td>");
+                    covids_data.push("<td id =''" + key + "''>" + value.Deaths +
+                        "</td>");
+                });
+                $("<tbody/>", {
+                    html: covids_data.join("")
+                }).appendTo("#table-covids")
+            });
+        </script>
+    </main>
+</body>
+
+</html>
